@@ -3,10 +3,6 @@
 # 🧮 CDAF
 ### Computational Discrete Analysis Framework
 
-![C++](https://img.shields.io/badge/C++-17-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge)
-![Course](https://img.shields.io/badge/Course-Discrete%20Structure%20CS1005-orange?style=for-the-badge)
-![University](https://img.shields.io/badge/FAST-NUCES%20CFD-blue?style=for-the-badge)
 
 > A menu-driven C++ application that validates discrete mathematical structures, computes relational properties, and executes advanced graph algorithms.
 
@@ -181,9 +177,9 @@ Partial Order: FALSE
 
 | Name | Role |
 |------|------|
-| _____________________ | Set Theory & Predicate Logic — Modules 1.1, 1.2, 1.3 |
-| _____________________ | Graph Algorithms & Analysis — Modules 2.1, 2.2, 2.3 |
-| _____________________ | Relations, Functions & Integration — Modules 3.1, 3.2, 3.3 |
+| Muhammad Uzair Hussain | Set Theory & Predicate Logic — Modules 1.1, 1.2, 1.3 |
+| Abdul Hayee Kamran | Graph Algorithms & Analysis — Modules 2.1, 2.2, 2.3 |
+| Saadan Khan | Relations, Functions & Integration — Modules 3.1, 3.2, 3.3 |
 
 ---
 
@@ -194,5 +190,5 @@ This project was developed for academic purposes at **FAST NUCES CFD Campus**.
 ---
 
 <div align="center">
-Made with ❤️ by Group ___ &nbsp;|&nbsp; FAST NUCES CFD &nbsp;|&nbsp; Batch 2028
+Made with ❤️ by Group  &nbsp;|&nbsp; FAST NUCES CFD &nbsp;|&nbsp; Batch 2024
 </div>
