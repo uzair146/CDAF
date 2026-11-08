@@ -12,150 +12,203 @@
 #include <climits>
 #include <stdexcept>
 #include <utility>
-
 using namespace std;
-
-// ============================================================
 //  MODULE 1.1 : DiscreteSet<T>
-// ============================================================
 template <typename T>
 class DiscreteSet {
 private:
     T* data;
     int capacity;
     int count;
-
     void resize() {
         capacity *= 2;
         T* nd = new T[capacity];
-        for (int i = 0; i < count; i++) nd[i] = data[i];
+        for (int i = 0; i < count; i++) {
+            nd[i] = data[i];
+        }
         delete[] data;
         data = nd;
     }
-
     int binarySearch(const T& val) const {
         int lo = 0, hi = count - 1;
         while (lo <= hi) {
             int mid = (lo + hi) / 2;
-            if (data[mid] == val) return mid;
-            else if (data[mid] < val) lo = mid + 1;
-            else hi = mid - 1;
+            if (data[mid] == val) {
+                return mid;
+            }
+            else if (data[mid] < val) {
+                lo = mid + 1;
+            }
+            else {
+                hi = mid - 1;
+            }
         }
         return -1;
     }
-
 public:
-    DiscreteSet() : capacity(8), count(0) { data = new T[capacity]; }
-
+    DiscreteSet() : capacity(8), count(0) {
+        data = new T[capacity]; 
+    }
     DiscreteSet(const DiscreteSet<T>& o) : capacity(o.capacity), count(o.count) {
         data = new T[capacity];
-        for (int i = 0; i < count; i++) data[i] = o.data[i];
+        for (int i = 0; i < count; i++) {
+            data[i] = o.data[i];
+        }
     }
-
     DiscreteSet<T>& operator=(const DiscreteSet<T>& o) {
-        if (this == &o) return *this;
+        if (this == &o) {
+            return *this;
+        }
         delete[] data;
-        capacity = o.capacity; count = o.count;
+        capacity = o.capacity; 
+        count = o.count;
         data = new T[capacity];
-        for (int i = 0; i < count; i++) data[i] = o.data[i];
+        for (int i = 0; i < count; i++) {
+            data[i] = o.data[i];
+        }
         return *this;
     }
-
-    ~DiscreteSet() { delete[] data; }
-
+    ~DiscreteSet() { 
+        delete[] data;
+    }
     void add(T element) {
-        if (member(element)) return;
-        if (count >= capacity) resize();
+        if (member(element)) {
+            return;
+        }
+        if (count >= capacity) {
+            resize();
+        }
         int i = count - 1;
-        while (i >= 0 && data[i] > element) { data[i+1] = data[i]; i--; }
+        while (i >= 0 && data[i] > element) { 
+            data[i+1] = data[i]; 
+            i--; 
+        }
         data[i+1] = element;
         count++;
     }
-
     void delete_element(const T& element) {
         int idx = binarySearch(element);
-        if (idx == -1) return;
-        for (int i = idx; i < count - 1; i++) data[i] = data[i+1];
+        if (idx == -1){ 
+            return;
+        }           
+        for (int i = idx; i < count - 1; i++) {
+            data[i] = data[i+1];
+        }
         count--;
     }
-
-    bool member(const T& element) const { return binarySearch(element) != -1; }
-    int  size()  const { return count; }
-    bool empty() const { return count == 0; }
-    void clear_all()   { count = 0; }
-
+    bool member(const T& element) const {
+        return binarySearch(element) != -1; 
+    }
+    int  size()  const {
+        return count;
+    }
+    bool empty() const { 
+        return count == 0;
+    }
+    void clear_all()   { 
+        count = 0; 
+    }
     T get(int idx) const {
-        if (idx < 0 || idx >= count) throw out_of_range("Index out of range");
+        if (idx < 0 || idx >= count) {
+            throw out_of_range("Index out of range");
+        }
         return data[idx];
     }
-
     DiscreteSet<T> set_union(const DiscreteSet<T>& o) const {
         DiscreteSet<T> r = *this;
-        for (int i = 0; i < o.count; i++) r.add(o.data[i]);
+        for (int i = 0; i < o.count; i++){
+            r.add(o.data[i]);
+        }
         return r;
     }
-
     DiscreteSet<T> set_intersection(const DiscreteSet<T>& o) const {
         DiscreteSet<T> r;
-        for (int i = 0; i < count; i++) if (o.member(data[i])) r.add(data[i]);
+        for (int i = 0; i < count; i++) {
+            if (o.member(data[i])) {
+                r.add(data[i]);
+            }
+        }
         return r;
     }
-
     DiscreteSet<T> set_difference(const DiscreteSet<T>& o) const {
         DiscreteSet<T> r;
-        for (int i = 0; i < count; i++) if (!o.member(data[i])) r.add(data[i]);
+        for (int i = 0; i < count; i++) {
+            if (!o.member(data[i])) {
+                r.add(data[i]);
+            }
+        }
         return r;
     }
-
     DiscreteSet<T> symmetric_diff(const DiscreteSet<T>& o) const {
         return set_difference(o).set_union(o.set_difference(*this));
     }
-
     bool is_subset(const DiscreteSet<T>& o) const {
-        for (int i = 0; i < count; i++) if (!o.member(data[i])) return false;
+        for (int i = 0; i < count; i++){
+            if (!o.member(data[i])) {
+                return false;
+            }
+        }
         return true;
     }
-
     bool is_strict_subset(const DiscreteSet<T>& o) const {
         return is_subset(o) && count < o.count;
     }
-
     bool operator==(const DiscreteSet<T>& o) const {
-        if (count != o.count) return false;
-        for (int i = 0; i < count; i++) if (data[i] != o.data[i]) return false;
+        if (count != o.count) {
+            return false;
+        }
+        for (int i = 0; i < count; i++) {
+            if (data[i] != o.data[i]) {
+                return false;
+            }
+        }
         return true;
     }
-
     bool operator<(const DiscreteSet<T>& o) const {
-        if (count != o.count) return count < o.count;
-        for (int i = 0; i < count; i++) if (data[i] != o.data[i]) return data[i] < o.data[i];
+        if (count != o.count) {
+            return count < o.count;
+        }
+        for (int i = 0; i < count; i++) {
+            if (data[i] != o.data[i]) {
+                return data[i] < o.data[i];
+            }
+        }
         return false;
     }
-
-    bool operator>(const DiscreteSet<T>& o) const { return o < *this; }
-
+    bool operator>(const DiscreteSet<T>& o) const {
+        return o < *this; 
+    }
     DiscreteSet<DiscreteSet<T>> powerset() const {
         DiscreteSet<DiscreteSet<T>> result;
         int total = 1 << count;
         for (int mask = 0; mask < total; mask++) {
             DiscreteSet<T> subset;
-            for (int i = 0; i < count; i++) if (mask & (1 << i)) subset.add(data[i]);
+            for (int i = 0; i < count; i++) {
+                if (mask & (1 << i)) {
+                    subset.add(data[i]);
+                }
+            }
             result.add(subset);
         }
         return result;
     }
-
     DiscreteSet<pair<T,T>> cartesian_prod(const DiscreteSet<T>& o) const {
         DiscreteSet<pair<T,T>> result;
-        for (int i = 0; i < count; i++)
-            for (int j = 0; j < o.count; j++)
+        for (int i = 0; i < count; i++){
+            for (int j = 0; j < o.count; j++){
                 result.add({data[i], o.data[j]});
+            }
+        }
         return result;
     }
-
     friend ostream& operator<<(ostream& os, const DiscreteSet<T>& s) {
         os << "{";
-        for (int i = 0; i < s.count; i++) { if (i > 0) os << ","; os << s.data[i]; }
+        for (int i = 0; i < s.count; i++) {
+            if (i > 0) {
+                os << ","; 
+                os << s.data[i];
+            }
+        }
         os << "}";
         return os;
     }
